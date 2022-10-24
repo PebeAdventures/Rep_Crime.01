@@ -25,8 +25,16 @@ namespace Rep_Crime._01_LawEnforcement.API.Services
             await _unitOfWork.LawEnforcementRepository.DeletelawEnforcement(publicId);
         }
 
+        public async Task<List<LawEnforcement>> GetAllLawEnforcement()
+        {
+            return await _unitOfWork.LawEnforcementRepository.GetAllLawEnforcementsAsync();
+        }
 
-        public async Task AddNewAssignedCrimeToChosedLawEnforcement(AssignedCrimeEvent assignedCrimeEvent)
+        public async Task<LawEnforcement> GetLawEnforcementById(string publicId)
+        {
+            return await _unitOfWork.LawEnforcementRepository.GetLawEnforcementByIdAsync(publicId);
+        }
+        public async Task AddNewAssignedCrimeToMostAccessibleLawEnforcement(AssignedCrimeEvent assignedCrimeEvent)
         {
             await _unitOfWork.LawEnforcementRepository.AddNewAssignedCrimeToMostAccessiblelawEnforcement(assignedCrimeEvent);
         }
@@ -35,6 +43,10 @@ namespace Rep_Crime._01_LawEnforcement.API.Services
             await _unitOfWork.LawEnforcementRepository.AddNewAssignedCrimeTolawEnforcement(assignedCrimeEvent, publicId);
         }
 
+        public async Task DeleteAssignedCrimeFromLawEnforcement(AssignedCrimeEvent assignedCrimeEvent, string publicId)
+        {
+            await _unitOfWork.LawEnforcementRepository.DeleteAssignedCrimeFromLawEnforcement(assignedCrimeEvent, publicId);
+        }
 
         public async Task<List<AssignedCrimeEvent>> GetAllAssignedCrimeFromChosedLawEnforcement(string publicId)
         {
@@ -44,5 +56,7 @@ namespace Rep_Crime._01_LawEnforcement.API.Services
         {
             //wysłanie do CrimeEvent API informacji o zmianie statusu konkretnego CrimeEventu
         }
+
+
     }
 }
