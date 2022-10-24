@@ -8,7 +8,7 @@
 
         public LawEnforcementRank Rank { get; set; }
 
-        public List<AssignedCrimeEvents> AssignedCrimeEvents { get; set; }
+        public List<AssignedCrimeEvent> AssignedCrimeEvents { get; set; }
 
     }
 }

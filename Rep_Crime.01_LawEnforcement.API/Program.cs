@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Rep_Crime._01_LawEnforcement.API.Database.Context;
 using Rep_Crime._01_LawEnforcement.API.Database.DAL;
 using Rep_Crime._01_LawEnforcement.API.Database.DAL.Interfaces;
+using Rep_Crime._01_LawEnforcement.API.Services;
+using Rep_Crime._01_LawEnforcement.API.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,7 @@ builder.Configuration
 builder.Services.AddDbContext<LawEnforcementDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("myConxStr")));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-//builder.Services.AddScoped<ILawEnforcementService, LawEnforcementService>();
+builder.Services.AddScoped<ILawEnforcementService, LawEnforcementService>();
 builder.Services.AddScoped<ILawEnforcementRepository, LawEnforcementRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
