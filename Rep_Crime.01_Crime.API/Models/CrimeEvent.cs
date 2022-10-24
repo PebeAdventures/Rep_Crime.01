@@ -6,8 +6,7 @@ namespace Rep_Crime._01_Crime.API.Models
     public class CrimeEvent
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public int Id { get; set; }
+        public string Id { get; set; }
         [BsonDateTimeOptions(Kind = DateTimeKind.Utc)]
         public DateTime DateTime { get; set; }
         public EventType EventType { get; set; }
