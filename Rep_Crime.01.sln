@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rep_Crime.01_Crime.API", "Rep_Crime.01_Crime.API\Rep_Crime.01_Crime.API.csproj", "{AE1EE03A-0BCB-42CC-BD43-AC5C57E271CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commons", "Commons\Commons.csproj", "{BAEF6B52-DE1B-4099-9D72-24BC3B3BEDF3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{AE1EE03A-0BCB-42CC-BD43-AC5C57E271CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE1EE03A-0BCB-42CC-BD43-AC5C57E271CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE1EE03A-0BCB-42CC-BD43-AC5C57E271CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAEF6B52-DE1B-4099-9D72-24BC3B3BEDF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAEF6B52-DE1B-4099-9D72-24BC3B3BEDF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAEF6B52-DE1B-4099-9D72-24BC3B3BEDF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAEF6B52-DE1B-4099-9D72-24BC3B3BEDF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
