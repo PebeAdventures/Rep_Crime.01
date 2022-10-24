@@ -18,14 +18,14 @@ namespace Rep_Crime._01_LawEnforcement.API.Database.DAL
 
         public async Task<List<LawEnforcement>> GetAllLawEnforcementsAsync()
         {
-            var lawEnforcementsList = await lawEnforcementDbContext.lawEnforcements.Select(x => x).ToListAsync();
+            var lawEnforcementsList = await lawEnforcementDbContext.lawEnforcements.Include(x => x.AssignedCrimeEvents).Select(x => x).ToListAsync();
             return lawEnforcementsList;
         }
 
 
         public async Task<LawEnforcement> GetLawEnforcementByIdAsync(string publicId)
         {
-            LawEnforcement lawEnforcement = await lawEnforcementDbContext.lawEnforcements.Where(x => x.PublicLawEnforcementId.Equals(publicId)).FirstOrDefaultAsync();
+            LawEnforcement lawEnforcement = await lawEnforcementDbContext.lawEnforcements.Include(x => x.AssignedCrimeEvents).Where(x => x.PublicLawEnforcementId.Equals(publicId)).FirstOrDefaultAsync();
             return lawEnforcement;
         }
 
@@ -45,7 +45,10 @@ namespace Rep_Crime._01_LawEnforcement.API.Database.DAL
 
         public async Task<List<AssignedCrimeEvent>> GetAllAssignedCrimeEventFromChosedLawEnforcement(string publicId)
         {
-            var assignedCrimeEvents = await lawEnforcementDbContext.lawEnforcements.Where(x => x.PublicLawEnforcementId.Equals(publicId)).SelectMany(x => x.AssignedCrimeEvents).ToListAsync();
+            var assignedCrimeEvents = await lawEnforcementDbContext.lawEnforcements
+                .Include(x => x.AssignedCrimeEvents)
+                .Where(x => x.PublicLawEnforcementId.Equals(publicId))
+                .SelectMany(x => x.AssignedCrimeEvents).ToListAsync();
 
             return assignedCrimeEvents;
         }

@@ -7,7 +7,7 @@ namespace Rep_Crime._01_LawEnforcement.API.Database.Context
     {
 
         public DbSet<LawEnforcement> lawEnforcements { get; set; }
-
+        public DbSet<AssignedCrimeEvent> assignedCrimeEvents { get; set; }
         public LawEnforcementDbContext(DbContextOptions<LawEnforcementDbContext> options) : base(options)
         { }
     }

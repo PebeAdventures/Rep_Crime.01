@@ -2,7 +2,7 @@
 {
     public class AssignedCrimeEvent
     {
-        public int AssignedCrimeEventsId { get; set; }
+        public int Id { get; set; }
         public string CrimeEventId { get; set; }
     }
 }

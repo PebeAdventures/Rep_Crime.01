@@ -24,11 +24,11 @@ namespace Rep_Crime._01_LawEnforcement.API.Migrations
 
             modelBuilder.Entity("Rep_Crime._01_LawEnforcement.API.Models.AssignedCrimeEvent", b =>
                 {
-                    b.Property<int>("AssignedCrimeEventsId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssignedCrimeEventsId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CrimeEventId")
                         .IsRequired()
@@ -37,11 +37,11 @@ namespace Rep_Crime._01_LawEnforcement.API.Migrations
                     b.Property<Guid?>("LawEnforcementId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("AssignedCrimeEventsId");
+                    b.HasKey("Id");
 
                     b.HasIndex("LawEnforcementId");
 
-                    b.ToTable("AssignedCrimeEvent");
+                    b.ToTable("assignedCrimeEvents");
                 });
 
             modelBuilder.Entity("Rep_Crime._01_LawEnforcement.API.Models.LawEnforcement", b =>
@@ -65,13 +65,13 @@ namespace Rep_Crime._01_LawEnforcement.API.Migrations
             modelBuilder.Entity("Rep_Crime._01_LawEnforcement.API.Models.AssignedCrimeEvent", b =>
                 {
                     b.HasOne("Rep_Crime._01_LawEnforcement.API.Models.LawEnforcement", null)
-                        .WithMany("AssignedCrimeEvent")
+                        .WithMany("AssignedCrimeEvents")
                         .HasForeignKey("LawEnforcementId");
                 });
 
             modelBuilder.Entity("Rep_Crime._01_LawEnforcement.API.Models.LawEnforcement", b =>
                 {
-                    b.Navigation("AssignedCrimeEvent");
+                    b.Navigation("AssignedCrimeEvents");
                 });
 #pragma warning restore 612, 618
         }

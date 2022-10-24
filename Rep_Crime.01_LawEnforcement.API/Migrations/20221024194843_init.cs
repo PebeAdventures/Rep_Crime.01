@@ -23,34 +23,34 @@ namespace Rep_Crime._01_LawEnforcement.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AssignedCrimeEvent",
+                name: "assignedCrimeEvents",
                 columns: table => new
                 {
-                    AssignedCrimeEventsId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CrimeEventId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LawEnforcementId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AssignedCrimeEvents", x => x.AssignedCrimeEventsId);
+                    table.PrimaryKey("PK_assignedCrimeEvents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AssignedCrimeEvents_lawEnforcements_LawEnforcementId",
+                        name: "FK_assignedCrimeEvents_lawEnforcements_LawEnforcementId",
                         column: x => x.LawEnforcementId,
                         principalTable: "lawEnforcements",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AssignedCrimeEvents_LawEnforcementId",
-                table: "AssignedCrimeEvent",
+                name: "IX_assignedCrimeEvents_LawEnforcementId",
+                table: "assignedCrimeEvents",
                 column: "LawEnforcementId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AssignedCrimeEvent");
+                name: "assignedCrimeEvents");
 
             migrationBuilder.DropTable(
                 name: "lawEnforcements");
