@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using Rep_Crime._01_Crime.API.Factories;
 using Rep_Crime._01_Crime.API.Models;
 using Rep_Crime._01_Crime.API.Services.Interface;
@@ -19,7 +20,7 @@ namespace Rep_Crime._01_Crime.API.Services
             var mongoClient = new MongoClient(options.Value.ConnectionString);
             var mongoDatabase = mongoClient.GetDatabase(options.Value.DatabaseName);
             _crimeEventsCollection = mongoDatabase.GetCollection<CrimeEvent>(options.Value.CrimeCollectionName);
-            _httpClient = httpClient;
+            _httpClient = new HttpClient();
         }
 
         public async Task<List<CrimeEvent?>> GetAllEvents() =>
@@ -34,20 +35,13 @@ namespace Rep_Crime._01_Crime.API.Services
         await _crimeEventsCollection.Find(x => x.EventType == eventType).ToListAsync();
 
 
-        public async Task CreateEventAsync(NewCrimeEventDTO newCrimeEventDTO)
+        public async Task CreateEventAsync(CrimeEventRequest crimeEventRequest)
         {
-            //EventType walidacja i przepisanie na etapie controlera
-            CrimeEventRequest crimeEventRequest = new CrimeEventRequest(
-                EventType.ASSAULT,
-                newCrimeEventDTO.Description,
-                newCrimeEventDTO.PlaceOfEvent,
-                newCrimeEventDTO.ReportingPersonEmail,
-                EventStatus.WAITING);
-
             CrimeEvent newCrimeEvent = new CrimeEventFactory().Create(crimeEventRequest);
-            string lawEnforcementId = await ProxyTo("https://localhost:7113/addNewAssignedCrimeToMostAccessibleLawEnforcement/", newCrimeEvent.PublicIdentifier);
+            string crimeEventId = newCrimeEvent.PublicIdentifier;
+            var json = JsonConvert.SerializeObject(new CrimeEventIdDTO() { CrimeEventId = "crimeEventId", EventId = crimeEventId });
+            string lawEnforcementId = await ProxyTo("https://localhost:7113/addNewAssignedCrimeToMostAccessibleLawEnforcement/", json);
             newCrimeEvent.AssigneLawEnforcementID = lawEnforcementId;
-            //wysłanie info do LawEnf z dodaniem publicId do ich bazy i przypisaniem przypisanego lawEnf Id tu
 
             await _crimeEventsCollection.InsertOneAsync(newCrimeEvent);
         }

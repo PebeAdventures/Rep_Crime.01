@@ -5,6 +5,7 @@
         ASSAULT,
         THEFT,
         INDECENT_BEHAVIOR,
-        CAR_ACCIDENT
+        CAR_ACCIDENT,
+        WRONG_TYPE
     }
 }

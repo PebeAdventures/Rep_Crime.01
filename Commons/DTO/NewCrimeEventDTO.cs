@@ -13,7 +13,6 @@ namespace Commons.DTO
         public string Description { get; set; }
         public string PlaceOfEvent { get; set; }
         public string ReportingPersonEmail { get; set; }
-        public string EventStatus { get; set; }
 
 
 
