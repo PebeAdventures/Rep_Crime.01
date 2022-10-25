@@ -1,4 +1,6 @@
+using Commons.DTO;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using Rep_Crime._01_Crime.API.Models;
 using Rep_Crime._01_Crime.API.Services;
 
@@ -39,11 +41,12 @@ namespace Rep_Crime._01_Crime.API.Controllers
 
         [HttpPost]
         [Route("/addNewCrimeEvent)")]
-        public async Task<IActionResult> Post(CrimeEvent crimeEvent)
+        public async Task<IActionResult> Post(NewCrimeEventDTO newCrimeEventDTO)
         {
-            await _crimeEventService.CreateEventAsync(crimeEvent);
+            //dopisanie walidacji i przepisania dwóch prymitywów z DTO na obiekty
+            await _crimeEventService.CreateEventAsync(newCrimeEventDTO);
 
-            return CreatedAtAction(nameof(GetCrimeEventById), new { id = crimeEvent.Id }, crimeEvent);
+            return Ok();
         }
         [HttpPut]
         [Route("/updateCrimeEventStatus)")]

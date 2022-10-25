@@ -6,7 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.Configure<CrimeEventsDatabaseSettings>(
     builder.Configuration.GetSection("EventCrimeDatabaseSettings"));
-
+builder.Services.AddHttpClient();
 builder.Services.AddSingleton<CrimeEventService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
