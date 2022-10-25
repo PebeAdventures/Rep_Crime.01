@@ -42,7 +42,6 @@ namespace Rep_Crime._01_Crime.API.Services
             var json = JsonConvert.SerializeObject(new CrimeEventIdDTO() { CrimeEventId = "crimeEventId", EventId = crimeEventId });
             string lawEnforcementId = await ProxyTo("https://localhost:7113/addNewAssignedCrimeToMostAccessibleLawEnforcement/", json);
             newCrimeEvent.AssigneLawEnforcementID = lawEnforcementId;
-
             await _crimeEventsCollection.InsertOneAsync(newCrimeEvent);
         }
 

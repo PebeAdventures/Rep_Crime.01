@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.EntityFrameworkCore;
 using Rep_Crime._01_LawEnforcement.API.Database.Context;
 using Rep_Crime._01_LawEnforcement.API.Database.DAL;
@@ -10,9 +11,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Secrets.json");
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
+var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
+//var connectionString = $"Server = {dbHost}; Database = {dbName}; User Id = sa; Password = {dbPassword};";
+var connectionString = @"Server=sqllawenforcementdb;Database=LawEnforcementDb;User=sa;Password=yourStrong(!)Password;TrustServerCertificate=true";
+//"PATIENT_SQL_CONNECTONSTRING": "Server=db;Database=Hospitality.Patients;User=sa;Password=1Secure*Password1;TrustServerCertificate=true",
 
 builder.Services.AddDbContext<LawEnforcementDbContext>(option =>
-    option.UseSqlServer(builder.Configuration.GetConnectionString("myConxStr")));
+    option.UseSqlServer(connectionString));
+//builder.Services.AddDbContext<LawEnforcementDbContext>(option =>
+//    option.UseSqlServer(builder.Configuration.GetConnectionString("myConxStr")));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ILawEnforcementService, LawEnforcementService>();
 builder.Services.AddScoped<ILawEnforcementRepository, LawEnforcementRepository>();
@@ -22,7 +31,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<LawEnforcementDbContext>();
+    context.Database.Migrate();
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

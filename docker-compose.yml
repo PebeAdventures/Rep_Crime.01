@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  sqllawenforcementdb:
+    container_name: law-enforcement-db
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    ports:
+      - 8002:1433  
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=yourStrong(!)Password
+
+
+  rep_crime.01_lawenforcement.api:
+    container_name: law-enforcement-api
+    image: ${DOCKER_REGISTRY-}repcrime01lawenforcementapi
+    build:
+      context: .
+      dockerfile: Rep_Crime.01_LawEnforcement.API/Dockerfile
+    ports:
+      - 8001:80
+    depends_on:
+      - sqllawenforcementdb
+    environment:
+      - DB_HOST=sqllawenforcementdb
+      - DB_NAME=LawEnforcementDb
+      - DB_SA_PASSWORD=yourStrong(!)Password
