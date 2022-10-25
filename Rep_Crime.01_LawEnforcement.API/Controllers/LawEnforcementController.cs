@@ -1,3 +1,4 @@
+using Commons.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Rep_Crime._01_LawEnforcement.API.Models;
 using Rep_Crime._01_LawEnforcement.API.Services.Interface;
@@ -19,12 +20,12 @@ namespace Rep_Crime._01_LawEnforcement.API.Controllers
         }
 
         [HttpGet]
-        [Route("/getAll)")]
+        [Route("/getAll")]
         public async Task<List<LawEnforcement>> GetAllLawEnforcement() =>
         await _lawEnforcementService.GetAllLawEnforcement();
 
         [HttpGet]
-        [Route("/getById)")]
+        [Route("/getById")]
         public async Task<ActionResult<LawEnforcement?>> GetLawEnforcementById(string id)
         {
             var lawEnforcement = await _lawEnforcementService.GetLawEnforcementById(id);
@@ -38,7 +39,7 @@ namespace Rep_Crime._01_LawEnforcement.API.Controllers
         }
 
         [HttpPost]
-        [Route("/addNewLawEnforcement)")]
+        [Route("/addNewLawEnforcement")]
         public async Task<IActionResult> AddNewLawEnforcement(LawEnforcement lawEnforcement)
         {
             await _lawEnforcementService.AddLawEnforcementToBase(lawEnforcement);
@@ -47,7 +48,7 @@ namespace Rep_Crime._01_LawEnforcement.API.Controllers
         }
 
         [HttpDelete]
-        [Route("/deleteLawEnforcementById)")]
+        [Route("/deleteLawEnforcementById")]
         public async Task<IActionResult> DeleteEnforcementById(string id)
         {
             var lawEnforcement = await _lawEnforcementService.GetLawEnforcementById(id);
@@ -63,7 +64,7 @@ namespace Rep_Crime._01_LawEnforcement.API.Controllers
         }
 
         [HttpPost]
-        [Route("/addNewAssignedCrimeToChosedEnforcementById)")]
+        [Route("/addNewAssignedCrimeToChosedEnforcementById")]
         public async Task<IActionResult> AddNewAssignedCrimeToLawEnforcementById(string crimeEventId, string publicId)
         {
             await _lawEnforcementService.AddNewAssignedCrimeToChosedLawEnforcement(new AssignedCrimeEvent() { CrimeEventId = crimeEventId }, publicId);
@@ -71,13 +72,14 @@ namespace Rep_Crime._01_LawEnforcement.API.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        [Route("/addNewAssignedCrimeToMostAccessibleLawEnforcement)")]
-        public async Task<IActionResult> AddNewAssignedCrimeToMostAccessibleLawEnforcement(string crimeEventId)
+        [HttpPost]
+        [Route("/addNewAssignedCrimeToMostAccessibleLawEnforcement")]
+        public async Task<IActionResult> AddNewAssignedCrimeToMostAccessibleLawEnforcement(CrimeEventIdDTO crimeEventId)
         {
-            var publicVarEnforcementId = await _lawEnforcementService.AddNewAssignedCrimeToMostAccessibleLawEnforcement(new AssignedCrimeEvent() { CrimeEventId = crimeEventId });
+            var publicVarEnforcementId = await _lawEnforcementService.AddNewAssignedCrimeToMostAccessibleLawEnforcement(new AssignedCrimeEvent() { CrimeEventId = crimeEventId.EventId });
 
             return Ok(publicVarEnforcementId);
+
         }
 
         [HttpGet]
