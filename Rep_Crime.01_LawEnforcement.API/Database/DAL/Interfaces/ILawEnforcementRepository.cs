@@ -12,7 +12,7 @@ namespace Rep_Crime._01_LawEnforcement.API.Database.DAL.Interfaces
         Task AddNewAssignedCrimeTolawEnforcement(AssignedCrimeEvent assignedCrime, string publicId);
         Task DeleteAssignedCrimeFromLawEnforcement(AssignedCrimeEvent assignedCrime, string publicId);
         Task DeletelawEnforcement(string publicId);
-        Task AddNewAssignedCrimeToMostAccessiblelawEnforcement(AssignedCrimeEvent assignedCrime);
+        Task<string> AddNewAssignedCrimeToMostAccessiblelawEnforcement(AssignedCrimeEvent assignedCrime);
 
     }
 }

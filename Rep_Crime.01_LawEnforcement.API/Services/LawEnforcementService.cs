@@ -34,9 +34,10 @@ namespace Rep_Crime._01_LawEnforcement.API.Services
         {
             return await _unitOfWork.LawEnforcementRepository.GetLawEnforcementByIdAsync(publicId);
         }
-        public async Task AddNewAssignedCrimeToMostAccessibleLawEnforcement(AssignedCrimeEvent assignedCrimeEvent)
+        public async Task<string> AddNewAssignedCrimeToMostAccessibleLawEnforcement(AssignedCrimeEvent assignedCrimeEvent)
         {
-            await _unitOfWork.LawEnforcementRepository.AddNewAssignedCrimeToMostAccessiblelawEnforcement(assignedCrimeEvent);
+
+            return await _unitOfWork.LawEnforcementRepository.AddNewAssignedCrimeToMostAccessiblelawEnforcement(assignedCrimeEvent);
         }
         public async Task AddNewAssignedCrimeToChosedLawEnforcement(AssignedCrimeEvent assignedCrimeEvent, string publicId)
         {

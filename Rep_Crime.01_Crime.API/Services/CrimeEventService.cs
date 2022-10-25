@@ -45,7 +45,7 @@ namespace Rep_Crime._01_Crime.API.Services
                 EventStatus.WAITING);
 
             CrimeEvent newCrimeEvent = new CrimeEventFactory().Create(crimeEventRequest);
-            string lawEnforcementId = await ProxyTo("url do controllera który przyjmie wiadomość w lawEnf", newCrimeEvent.PublicIdentifier);
+            string lawEnforcementId = await ProxyTo("https://localhost:7113/addNewAssignedCrimeToMostAccessibleLawEnforcement/", newCrimeEvent.PublicIdentifier);
             newCrimeEvent.AssigneLawEnforcementID = lawEnforcementId;
             //wysłanie info do LawEnf z dodaniem publicId do ich bazy i przypisaniem przypisanego lawEnf Id tu
 

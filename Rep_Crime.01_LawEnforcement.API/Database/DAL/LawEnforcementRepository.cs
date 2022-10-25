@@ -53,14 +53,16 @@ namespace Rep_Crime._01_LawEnforcement.API.Database.DAL
             return assignedCrimeEvents;
         }
 
-        public async Task AddNewAssignedCrimeToMostAccessiblelawEnforcement(AssignedCrimeEvent assignedCrime)
+        public async Task<string> AddNewAssignedCrimeToMostAccessiblelawEnforcement(AssignedCrimeEvent assignedCrime)
         {
             var lawEnforcements = await GetAllLawEnforcementsAsync();
 
             LawEnforcement mostAccesibleLawEnforcement = GetMostAccesibleLawEnforcement(lawEnforcements);
 
             mostAccesibleLawEnforcement.AssignedCrimeEvents.Add(assignedCrime);
+            string mostAccesibleLawEnforcementId = mostAccesibleLawEnforcement.PublicLawEnforcementId;
             await lawEnforcementDbContext.SaveChangesAsync();
+            return mostAccesibleLawEnforcementId;
         }
 
         private LawEnforcement GetMostAccesibleLawEnforcement(List<LawEnforcement> lawEnforcements)

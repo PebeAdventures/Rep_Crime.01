@@ -71,13 +71,13 @@ namespace Rep_Crime._01_LawEnforcement.API.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("/addNewAssignedCrimeToMostAccessibleLawEnforcement)")]
         public async Task<IActionResult> AddNewAssignedCrimeToMostAccessibleLawEnforcement(string crimeEventId)
         {
-            await _lawEnforcementService.AddNewAssignedCrimeToMostAccessibleLawEnforcement(new AssignedCrimeEvent() { CrimeEventId = crimeEventId });
+            var publicVarEnforcementId = await _lawEnforcementService.AddNewAssignedCrimeToMostAccessibleLawEnforcement(new AssignedCrimeEvent() { CrimeEventId = crimeEventId });
 
-            return Ok();
+            return Ok(publicVarEnforcementId);
         }
 
         [HttpGet]
