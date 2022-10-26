@@ -1,4 +1,5 @@
-﻿using Rep_Crime._01_LawEnforcement.API.Models;
+﻿using Commons.DTO;
+using Rep_Crime._01_LawEnforcement.API.Models;
 
 namespace Rep_Crime._01_LawEnforcement.API.Services.Interface
 {
@@ -12,6 +13,8 @@ namespace Rep_Crime._01_LawEnforcement.API.Services.Interface
         Task<List<AssignedCrimeEvent>> GetAllAssignedCrimeFromChosedLawEnforcement(string publicId);
         Task<List<LawEnforcement>> GetAllLawEnforcement();
         Task<LawEnforcement> GetLawEnforcementById(string publicId);
-        Task UpdateAssignedCrimeStatus(int newStatusNumber, AssignedCrimeEvent assignedCrimeEvent);
+        Task<string> UpdateAssignedCrimeStatus(string crimeStatus, AssignedCrimeEvent assignedCrimeEvent);
+        Task<CrimeEventDetailsDTO> GetCrimeEventDetailsByCrimeEventPublicId(string crimeEventPublicId);
+
     }
 }

@@ -109,6 +109,57 @@ namespace Rep_Crime._01_Crime.API.Controllers
             return NoContent();
         }
 
+        [HttpPost]
+        [Route("/updateCrimeEventStatusByLawEnforcement")]
+        public async Task<IActionResult> UpdateByLawEnforcement(CrimeEventChangeStatusDTO crimeEventChangeStatusDTO)
+        {
+            EventStatus eventStatus = CreateEventStatusFromDTO(crimeEventChangeStatusDTO);
+            if (eventStatus == EventStatus.WRONG_STATUS)
+            {
+                return BadRequest("Wrong EventStatus.");
+            }
+            var crimeEvent = await _crimeEventService.GetCrimeEventByPublicId(crimeEventChangeStatusDTO.PublicCrimeId);
+
+            if (crimeEvent is null)
+            {
+                return NotFound("A record with the specified ID was not found: " + crimeEventChangeStatusDTO.PublicCrimeId);
+            }
+            if (eventStatus == crimeEvent.EventStatus)
+            {
+                return BadRequest("The record already contains the currently given status");
+            }
+
+            crimeEvent.EventStatus = eventStatus;
+
+            await _crimeEventService.UpdateCrimeEventStatus(crimeEvent.Id, crimeEvent);
+
+            return NoContent();
+        }
+
+        private EventStatus CreateEventStatusFromDTO(CrimeEventChangeStatusDTO crimeEventChangeStatusDTO)
+        {
+            EventStatus result;
+            if (EventType.TryParse(crimeEventChangeStatusDTO.CrimeStatus, out result))
+            {
+                switch (result)
+                {
+                    case EventStatus.WAITING:
+                        return EventStatus.WAITING;
+                    case EventStatus.FINISHED:
+                        return EventStatus.FINISHED;
+                    case EventStatus.DECLINED:
+                        return EventStatus.DECLINED;
+                    default:
+                        return EventStatus.WRONG_STATUS;
+                }
+
+            }
+            else
+            {
+                return EventStatus.WRONG_STATUS;
+            }
+        }
+
         [HttpDelete]
         [Route("/deleteCrimeEventById")]
         public async Task<IActionResult> Delete(string id)
@@ -123,6 +174,14 @@ namespace Rep_Crime._01_Crime.API.Controllers
             await _crimeEventService.RemoveAsync(id);
 
             return NoContent();
+        }
+
+        [HttpPost]
+        [Route("/getCrimeEventDetailsForLawEnforcement")]
+        public async Task<IActionResult> GetCrimeEventDetailsForLawEnforcement(CrimeEventDetailsDTO crimeEventDetailsDTO)
+        {
+            var result = await _crimeEventService.GetCrimeEventForLawEnforcement(crimeEventDetailsDTO);
+            return Ok(result);
         }
     }
 }

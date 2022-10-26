@@ -30,6 +30,8 @@ namespace Rep_Crime._01_Crime.API.Services
         public async Task<CrimeEvent?> GetCrimeEventById(string id) =>
         await _crimeEventsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
+        public async Task<CrimeEvent?> GetCrimeEventByPublicId(string publicId) =>
+      await _crimeEventsCollection.Find(x => x.PublicIdentifier == publicId).FirstOrDefaultAsync();
 
         public async Task<List<CrimeEvent?>> GetAllEventsByType(EventType eventType) =>
         await _crimeEventsCollection.Find(x => x.EventType == eventType).ToListAsync();
@@ -58,7 +60,22 @@ namespace Rep_Crime._01_Crime.API.Services
 
         {
             await _crimeEventsCollection.ReplaceOneAsync(x => x.Id == id, updatedCrimeEvent);
+            //Powiadomienie osoby zglaszającej o zmianie statusu
         }
+
+        public async Task<CrimeEventDetailsDTO> GetCrimeEventForLawEnforcement(CrimeEventDetailsDTO crimeEventDetailsDTO)
+        {
+            CrimeEvent crimeEvent = await GetCrimeEventByPublicId(crimeEventDetailsDTO.CrimeEventId);
+            crimeEventDetailsDTO.DateTime = crimeEvent.DateTime;
+            crimeEventDetailsDTO.EventType = crimeEvent.EventType.ToString();
+            crimeEventDetailsDTO.Description = crimeEvent.Description;
+            crimeEventDetailsDTO.PlaceOfEvent = crimeEvent.PlaceOfEvent;
+            crimeEventDetailsDTO.ReportingPersonalEmail = crimeEvent.ReportingPersonEmail;
+            return crimeEventDetailsDTO;
+
+
+        }
+
 
 
         public async Task RemoveAsync(string id) =>

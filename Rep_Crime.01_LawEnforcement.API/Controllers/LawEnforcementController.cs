@@ -25,7 +25,7 @@ namespace Rep_Crime._01_LawEnforcement.API.Controllers
         await _lawEnforcementService.GetAllLawEnforcement();
 
         [HttpGet]
-        [Route("/getById")]
+        [Route("/geLawEnforcementtById")]
         public async Task<ActionResult<LawEnforcement?>> GetLawEnforcementById(string id)
         {
             var lawEnforcement = await _lawEnforcementService.GetLawEnforcementById(id);
@@ -90,6 +90,23 @@ namespace Rep_Crime._01_LawEnforcement.API.Controllers
 
         }
 
+        [HttpPost]
+        [Route("/changeCrimeEventStatus")]
+        public async Task<IActionResult> ChangeCrimeEventStatus(string newCrimeEventStatus, AssignedCrimeEvent assignedCrimeEvent)
+        {
+            var respond = await _lawEnforcementService.UpdateAssignedCrimeStatus(newCrimeEventStatus, assignedCrimeEvent);
 
+            return Ok(respond);
+
+        }
+
+        [HttpPost]
+        [Route("/getCrimeEventDetailsById")]
+        public async Task<ActionResult<CrimeEventDetailsDTO>> GetCrimeEventDetailsByCrimeEventPublicId(string publicId)
+        {
+            CrimeEventDetailsDTO result = await _lawEnforcementService.GetCrimeEventDetailsByCrimeEventPublicId(publicId);
+
+            return Ok(result);
+        }
     }
 }

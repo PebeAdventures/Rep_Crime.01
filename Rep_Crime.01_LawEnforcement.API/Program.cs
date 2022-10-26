@@ -9,6 +9,7 @@ using Rep_Crime._01_LawEnforcement.API.Services.Interface;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHttpClient();
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("Secrets.json");
 var dbHost = Environment.GetEnvironmentVariable("DB_HOST");

@@ -1,16 +1,21 @@
-﻿using Rep_Crime._01_LawEnforcement.API.Database.DAL.Interfaces;
+﻿using Commons.DTO;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Rep_Crime._01_LawEnforcement.API.Database.DAL.Interfaces;
 using Rep_Crime._01_LawEnforcement.API.Models;
 using Rep_Crime._01_LawEnforcement.API.Services.Interface;
+using System.Text;
 
 namespace Rep_Crime._01_LawEnforcement.API.Services
 {
     public class LawEnforcementService : ILawEnforcementService
     {
-
+        private readonly HttpClient _httpClient;
         private readonly IUnitOfWork _unitOfWork;
-        public LawEnforcementService(IUnitOfWork unitOfWork)
+        public LawEnforcementService(IUnitOfWork unitOfWork, HttpClient httpClient)
         {
             _unitOfWork = unitOfWork;
+            _httpClient = new HttpClient();
         }
 
 
@@ -53,11 +58,43 @@ namespace Rep_Crime._01_LawEnforcement.API.Services
         {
             return await _unitOfWork.LawEnforcementRepository.GetAllAssignedCrimeEventFromChosedLawEnforcement(publicId);
         }
-        public async Task UpdateAssignedCrimeStatus(int newStatusNumber, AssignedCrimeEvent assignedCrimeEvent)
+        public async Task<string> UpdateAssignedCrimeStatus(string crimeStatus, AssignedCrimeEvent assignedCrimeEvent)
         {
-            //wysłanie do CrimeEvent API informacji o zmianie statusu konkretnego CrimeEventu
+            CrimeEventChangeStatusDTO crimeEventChangeStatusDTO = new CrimeEventChangeStatusDTO();
+            crimeEventChangeStatusDTO.CrimeStatus = crimeStatus;
+            crimeEventChangeStatusDTO.PublicCrimeId = assignedCrimeEvent.CrimeEventId;
+
+
+            var json = JsonConvert.SerializeObject(crimeEventChangeStatusDTO);
+            var results = await ProxyTo("http://rep_crime.01_crime.api/updateCrimeEventStatusByLawEnforcement/", json);
+            return results;
+
         }
 
 
+        public async Task<CrimeEventDetailsDTO> GetCrimeEventDetailsByCrimeEventPublicId(string crimeEventPublicId)
+        {
+
+            var crimeEventDetailsDTO = new CrimeEventDetailsDTO();
+            crimeEventDetailsDTO.CrimeEventId = crimeEventPublicId;
+            crimeEventDetailsDTO.PlaceOfEvent = "";
+            crimeEventDetailsDTO.ReportingPersonalEmail = "";
+            crimeEventDetailsDTO.EventType = "";
+            crimeEventDetailsDTO.DateTime = DateTime.Now;
+            crimeEventDetailsDTO.Description = "";
+            var json = JsonConvert.SerializeObject(crimeEventDetailsDTO);
+            var respond = await ProxyTo("http://rep_crime.01_crime.api/getCrimeEventDetailsForLawEnforcement/", json);
+            var filledCrimeEventDetails = JsonConvert.DeserializeObject<CrimeEventDetailsDTO>(respond);
+            return filledCrimeEventDetails;
+
+        }
+        private async Task<string> ProxyTo(string url, string value)
+        {
+            var content = new StringContent(value, Encoding.UTF8, "application/json");
+            var respond = await _httpClient.PostAsync(url, content);
+            var result = await respond.Content.ReadAsStringAsync();
+            return result;
+
+        }
     }
 }

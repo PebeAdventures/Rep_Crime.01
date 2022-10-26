@@ -4,6 +4,7 @@
     {
         WAITING,
         FINISHED,
-        DECLINED
+        DECLINED,
+        WRONG_STATUS
     }
 }

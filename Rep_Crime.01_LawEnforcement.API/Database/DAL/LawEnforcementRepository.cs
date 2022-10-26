@@ -102,7 +102,15 @@ namespace Rep_Crime._01_LawEnforcement.API.Database.DAL
         {
             LawEnforcement lawEnforcement = await GetLawEnforcementByIdAsync(publicId);
             lawEnforcement.AssignedCrimeEvents.Remove(assignedCrime);
+            await lawEnforcementDbContext.SaveChangesAsync();
         }
+
+        //public async Task ChangeAssignedCrimeStatus(AssignedCrimeEvent assignedCrime, string publicId)
+        //{
+        //    LawEnforcement lawEnforcement = await GetLawEnforcementByIdAsync(publicId);
+        //   AssignedCrimeEvent assignedCrimeEvent = lawEnforcement.AssignedCrimeEvents.Where(x => x.CrimeEventId.Equals(assignedCrime.CrimeEventId)).FirstOrDefault();
+
+        //}
 
     }
 
