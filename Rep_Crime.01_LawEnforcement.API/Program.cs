@@ -18,8 +18,6 @@ var connectionString = $"Server = {dbHost}; Database = {dbName}; User Id = sa; P
 
 builder.Services.AddDbContext<LawEnforcementDbContext>(option =>
     option.UseSqlServer(connectionString));
-//builder.Services.AddDbContext<LawEnforcementDbContext>(option =>
-//    option.UseSqlServer(builder.Configuration.GetConnectionString("myConxStr")));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ILawEnforcementService, LawEnforcementService>();
 builder.Services.AddScoped<ILawEnforcementRepository, LawEnforcementRepository>();
