@@ -1,5 +1,6 @@
 using Rep_Crime._01_Crime.API.Models;
 using Rep_Crime._01_Crime.API.Services;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<CrimeEventsDatabaseSettings>(
     builder.Configuration.GetSection("EventCrimeDatabaseSettings"));
+
+
+var logger = new LoggerConfiguration()
+  .ReadFrom.Configuration(builder.Configuration)
+  .Enrich.FromLogContext()
+  .CreateLogger();
+builder.Logging.AddSerilog(logger);
+
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<CrimeEventService>();
 builder.Services.AddControllers();

@@ -13,11 +13,9 @@ namespace Rep_Crime._01_Crime.API.Controllers
     {
         private readonly CrimeEventService _crimeEventService;
 
-        private readonly ILogger<CrimeEventsController> _logger;
 
-        public CrimeEventsController(ILogger<CrimeEventsController> logger, CrimeEventService crimeEventService)
+        public CrimeEventsController(CrimeEventService crimeEventService)
         {
-            _logger = logger;
             _crimeEventService = crimeEventService;
         }
 
@@ -28,13 +26,13 @@ namespace Rep_Crime._01_Crime.API.Controllers
 
         [HttpGet]
         [Route("/getById")]
-        public async Task<ActionResult<CrimeEvent?>> GetCrimeEventById(string id)
+        public async Task<ActionResult<CrimeEvent?>> GetCrimeEventById(string crimeEventId)
         {
-            var crimeEvent = await _crimeEventService.GetCrimeEventById(id);
+            var crimeEvent = await _crimeEventService.GetCrimeEventById(crimeEventId);
 
             if (crimeEvent is null)
             {
-                return NotFound("A record with the specified ID was not found: " + id);
+                return NotFound("A record with the specified ID was not found: " + crimeEventId);
             }
 
             return crimeEvent;
@@ -89,13 +87,13 @@ namespace Rep_Crime._01_Crime.API.Controllers
 
         [HttpPut]
         [Route("/updateCrimeEventStatus")]
-        public async Task<IActionResult> Update(string id, EventStatus eventStatus)
+        public async Task<IActionResult> Update(string crimeEventId, EventStatus eventStatus)
         {
-            var crimeEvent = await _crimeEventService.GetCrimeEventById(id);
+            var crimeEvent = await _crimeEventService.GetCrimeEventById(crimeEventId);
 
             if (crimeEvent is null)
             {
-                return NotFound("A record with the specified ID was not found: " + id);
+                return NotFound("A record with the specified ID was not found: " + crimeEventId);
             }
             if (eventStatus == crimeEvent.EventStatus)
             {
@@ -104,7 +102,7 @@ namespace Rep_Crime._01_Crime.API.Controllers
 
             crimeEvent.EventStatus = eventStatus;
 
-            await _crimeEventService.UpdateCrimeEventStatus(id, crimeEvent);
+            await _crimeEventService.UpdateCrimeEventStatus(crimeEventId, crimeEvent);
 
             return NoContent();
         }
@@ -162,16 +160,16 @@ namespace Rep_Crime._01_Crime.API.Controllers
 
         [HttpDelete]
         [Route("/deleteCrimeEventById")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string crimeEventId)
         {
-            var crimeEvent = await _crimeEventService.GetCrimeEventById(id);
+            var crimeEvent = await _crimeEventService.GetCrimeEventById(crimeEventId);
 
             if (crimeEvent is null)
             {
-                return NotFound("A record with the specified ID was not found: " + id);
+                return NotFound("A record with the specified ID was not found: " + crimeEventId);
             }
 
-            await _crimeEventService.RemoveAsync(id);
+            await _crimeEventService.RemoveAsync(crimeEventId);
 
             return NoContent();
         }

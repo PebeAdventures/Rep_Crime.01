@@ -11,11 +11,9 @@ namespace Rep_Crime._01_LawEnforcement.API.Controllers
     {
 
         private readonly ILawEnforcementService _lawEnforcementService;
-        private readonly ILogger<LawEnforcementController> _logger;
 
-        public LawEnforcementController(ILogger<LawEnforcementController> logger, ILawEnforcementService lawEnforcementService)
+        public LawEnforcementController(ILawEnforcementService lawEnforcementService)
         {
-            _logger = logger;
             _lawEnforcementService = lawEnforcementService;
         }
 
@@ -86,14 +84,20 @@ namespace Rep_Crime._01_LawEnforcement.API.Controllers
         [Route("/getAllAssignedCrimeFromChosedLawEnforcemen")]
         public async Task<ActionResult<List<AssignedCrimeEvent>>> GetAllAssignedCrimeFromChosedLawEnforcement(string publicId)
         {
-            return await _lawEnforcementService.GetAllAssignedCrimeFromChosedLawEnforcement(publicId);
+            if (publicId == "")
+            {
+                return BadRequest("Empty provided id");
+            }
+            var assignedCrimes = await _lawEnforcementService.GetAllAssignedCrimeFromChosedLawEnforcement(publicId);
 
+            return assignedCrimes;
         }
 
         [HttpPost]
         [Route("/changeCrimeEventStatus")]
         public async Task<IActionResult> ChangeCrimeEventStatus(string newCrimeEventStatus, AssignedCrimeEvent assignedCrimeEvent)
         {
+
             var respond = await _lawEnforcementService.UpdateAssignedCrimeStatus(newCrimeEventStatus, assignedCrimeEvent);
 
             return Ok(respond);

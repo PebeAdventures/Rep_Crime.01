@@ -53,7 +53,6 @@ namespace Rep_Crime._01_Crime.API.Services
             var respond = await _httpClient.PostAsync(url, content);
             var result = await respond.Content.ReadAsStringAsync();
             return result;
-
         }
 
         public async Task UpdateCrimeEventStatus(string id, CrimeEvent updatedCrimeEvent)
@@ -75,8 +74,6 @@ namespace Rep_Crime._01_Crime.API.Services
 
 
         }
-
-
 
         public async Task RemoveAsync(string id) =>
        await _crimeEventsCollection.DeleteOneAsync(x => x.Id == id);
