@@ -1,6 +1,8 @@
 using Commons.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Rep_Crime._01_LawEnforcement.API.Factories;
 using Rep_Crime._01_LawEnforcement.API.Models;
+using Rep_Crime._01_LawEnforcement.API.Models.DTO;
 using Rep_Crime._01_LawEnforcement.API.Services.Interface;
 
 namespace Rep_Crime._01_LawEnforcement.API.Controllers
@@ -38,11 +40,12 @@ namespace Rep_Crime._01_LawEnforcement.API.Controllers
 
         [HttpPost]
         [Route("/addNewLawEnforcement")]
-        public async Task<IActionResult> AddNewLawEnforcement(LawEnforcement lawEnforcement)
+        public async Task<IActionResult> AddNewLawEnforcement(NewLawEnforcementDTO lawEnforcementDTO)
         {
-            await _lawEnforcementService.AddLawEnforcementToBase(lawEnforcement);
+            LawEnforcementRequest lawEnforcementRequest = new LawEnforcementRequest(new List<AssignedCrimeEvent>(), lawEnforcementDTO.Rank);
+            await _lawEnforcementService.AddLawEnforcementToBase(lawEnforcementRequest);
 
-            return CreatedAtAction(nameof(GetLawEnforcementById), new { id = lawEnforcement.PublicLawEnforcementId }, lawEnforcement);
+            return Ok();
         }
 
         [HttpDelete]

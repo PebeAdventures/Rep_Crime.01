@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Rep_Crime._01_LawEnforcement.API.Database.DAL.Interfaces;
+using Rep_Crime._01_LawEnforcement.API.Factories;
 using Rep_Crime._01_LawEnforcement.API.Models;
 using Rep_Crime._01_LawEnforcement.API.Services.Interface;
 using System.Text;
@@ -20,9 +21,10 @@ namespace Rep_Crime._01_LawEnforcement.API.Services
 
 
 
-        public async Task AddLawEnforcementToBase(LawEnforcement lawEnforcement)
+        public async Task AddLawEnforcementToBase(LawEnforcementRequest lawEnforcementRequest)
         {
-            await _unitOfWork.LawEnforcementRepository.AddNewLawEnforcement(lawEnforcement);
+            LawEnforcement LawEnforcement = new LawEnforcementFactory().Create(lawEnforcementRequest);
+            await _unitOfWork.LawEnforcementRepository.AddNewLawEnforcement(LawEnforcement);
         }
 
         public async Task DeleteLawEnforcement(string publicId)

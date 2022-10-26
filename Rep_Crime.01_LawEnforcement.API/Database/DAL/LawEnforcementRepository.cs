@@ -93,6 +93,7 @@ namespace Rep_Crime._01_LawEnforcement.API.Database.DAL
 
         public async Task AddNewAssignedCrimeTolawEnforcement(AssignedCrimeEvent assignedCrime, string publicId)
         {
+
             LawEnforcement lawEnforcement = await GetLawEnforcementByIdAsync(publicId);
             lawEnforcement.AssignedCrimeEvents.Add(assignedCrime);
             await lawEnforcementDbContext.SaveChangesAsync();
