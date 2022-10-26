@@ -25,3 +25,20 @@ services:
       - DB_HOST=sqllawenforcementdb
       - DB_NAME=LawEnforcementDb
       - DB_SA_PASSWORD=yourStrong(!)Password
+
+  rep_crime.01_crime.api:
+    container_name: crime-event-api
+    image: ${DOCKER_REGISTRY-}repcrime01crimeapi
+    build:
+      context: .
+      dockerfile: Rep_Crime.01_Crime.API/Dockerfile
+    ports:
+      - 8003:80
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017

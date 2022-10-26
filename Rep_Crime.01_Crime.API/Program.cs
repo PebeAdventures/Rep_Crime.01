@@ -4,6 +4,7 @@ using Rep_Crime._01_Crime.API.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.Configure<CrimeEventsDatabaseSettings>(
     builder.Configuration.GetSection("EventCrimeDatabaseSettings"));
 builder.Services.AddHttpClient();
@@ -22,7 +23,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

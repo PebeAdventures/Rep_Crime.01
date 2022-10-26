@@ -15,8 +15,6 @@ var dbHost = Environment.GetEnvironmentVariable("DB_HOST");
 var dbName = Environment.GetEnvironmentVariable("DB_NAME");
 var dbPassword = Environment.GetEnvironmentVariable("DB_SA_PASSWORD");
 var connectionString = $"Server = {dbHost}; Database = {dbName}; User Id = sa; Password = {dbPassword};";
-//var connectionString = @"Server=sqllawenforcementdb;Database=LawEnforcementDb;User=sa;Password=yourStrong(!)Password;TrustServerCertificate=true";
-//"PATIENT_SQL_CONNECTONSTRING": "Server=db;Database=Hospitality.Patients;User=sa;Password=1Secure*Password1;TrustServerCertificate=true",
 
 builder.Services.AddDbContext<LawEnforcementDbContext>(option =>
     option.UseSqlServer(connectionString));
@@ -44,7 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
