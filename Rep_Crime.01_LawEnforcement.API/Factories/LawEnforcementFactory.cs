@@ -17,7 +17,7 @@ namespace Rep_Crime._01_LawEnforcement.API.Factories
             LawEnforcement lawEnforcement = new LawEnforcement();
             lawEnforcement.AssignedCrimeEvents = lawEnforcementRequest.AssignedCrimeEvents;
             lawEnforcement.Rank = lawEnforcementRequest.LawEnforcementRank;
-            lawEnforcement.PublicLawEnforcementId = new string(lawEnforcement.Rank.ToString().Take(7).ToArray()) + DateTime.Now.Ticks;
+            lawEnforcement.PublicLawEnforcementId = new string(lawEnforcement.Rank.ToString().Take(8).ToArray()) + DateTime.Now.Ticks;
             return lawEnforcement;
         }
     }

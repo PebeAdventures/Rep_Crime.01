@@ -1,9 +1,11 @@
 using Commons.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using Rep_Crime._01_LawEnforcement.API.Factories;
 using Rep_Crime._01_LawEnforcement.API.Models;
 using Rep_Crime._01_LawEnforcement.API.Models.DTO;
 using Rep_Crime._01_LawEnforcement.API.Services.Interface;
+using System;
 
 namespace Rep_Crime._01_LawEnforcement.API.Controllers
 {
@@ -42,6 +44,11 @@ namespace Rep_Crime._01_LawEnforcement.API.Controllers
         [Route("/addNewLawEnforcement")]
         public async Task<IActionResult> AddNewLawEnforcement(NewLawEnforcementDTO lawEnforcementDTO)
         {
+            if (!Enum.IsDefined(typeof(LawEnforcementRank), lawEnforcementDTO.Rank))
+            {
+                return BadRequest("Wrong Law Enforcement Rank");
+            }
+
             LawEnforcementRequest lawEnforcementRequest = new LawEnforcementRequest(new List<AssignedCrimeEvent>(), lawEnforcementDTO.Rank);
             await _lawEnforcementService.AddLawEnforcementToBase(lawEnforcementRequest);
 
